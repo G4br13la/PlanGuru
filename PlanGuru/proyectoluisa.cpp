@@ -45,7 +45,7 @@ void addTask(Project& project)
 
 void showTasks(const Project& project) 
 {
-    cout << "TWorks of the proyect '" << project.name << "':" << endl;
+    cout << "Works of the proyect '" << project.name << "':" << endl;
     for (const Task& task : project.tasks) 
     {
         cout << "Name: " << task.name << endl;
@@ -54,14 +54,13 @@ void showTasks(const Project& project)
         cout << "Responsable: " << task.responsable << endl;
         cout << "Deadline: " << task.deadline << endl;
         cout << "Resume: " << task.summary << endl;
-        cout << "---------------------------------" << endl;
     }
 }
 
 int main() 
 {
     Project myProject;
-    myProject.name = "My Proyect";
+    myProject.name = "My Project";
 
     while (true) {
         cout << "1. Add work" << endl;
@@ -135,25 +134,25 @@ void addTask(Project& project)
     getline(cin, newTask.priority);
     cout << "Responsable: ";
     getline(cin, newTask.responsable);
-    cout << "Fecha límite: ";
+    cout << "Dead line: ";
     getline(cin, newTask.deadline);
     cout << "Resumen: ";
     getline(cin, newTask.summary);
     
     while (true) {
         Note newNote;
-        cout << "Add note to the work (S/N)? ";
+        cout << "Add note to the work (Y/N)? ";
         char choice;
         cin >> choice;
         
-        if (toupper(choice) != 'S')
+        if (toupper(choice) != 'Y')
             break;
         
-        cout << "Título de la nota: ";
+        cout << "Note title: ";
         getline(cin, newNote.title);
-        cout << "Autor de la nota: ";
+        cout << "Author of the note: ";
         getline(cin, newNote.author);
-        cout << "Descripción de la nota: ";
+        cout << "Note Description: ";
         getline(cin, newNote.description);
         
         newTask.notes.push_back(newNote);

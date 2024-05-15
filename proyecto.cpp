@@ -75,8 +75,20 @@ public:
         }
     }
 
-    void mostrar_notas()
+    void mostrar_notas(string nota)
     {
+        auto iterador = nombre_notas.find(nota); // busca el titulo de la nota en el vector de titulos
+        if (iterador != nombre_notas.end())      // si se encuentra el titulo
+        {
+            cout << "Se encontró " << nota << "en las notas" << endl;
+            cout << titulo_notas;
+            cout << autor_nota;
+            cout << comentarios;
+        }
+        else
+        {
+            cout << "No se encontró " << nombre_nota << "en las notas" << endl;
+        }
     }
 };
 
@@ -101,6 +113,70 @@ private:
     vector<Tareas> tarea;
 
 private:
+    string getNombre_proyecto()
+    {
+        return nombre_proyecto;
+    }
+    string getPropietario()
+    {
+        return propietario;
+    }
+    string getDescripcion()
+    {
+        return descripcion;
+    }
+    string getEstado_proyecto()
+    {
+        return estado_proyecto;
+    }
+    vector<Notas> getNota()
+    {
+        return nota;
+    };
+    vector<Tareas> getTarea()
+    {
+        return tarea;
+    };
+
+    void setNombre_proyecto(string nombre_proyecto)
+    {
+        this->nombre_proyecto = nombre_proyecto;
+    }
+    void setPropietario(string propietario)
+    {
+        this->propietario = propietario;
+    }
+    void setDescripcion(string descripcion)
+    {
+        this->descripcion = descripcion;
+    }
+    void setEstado_proyecto(string estado_proyecto)
+    {
+        this->estado_proyecto = estado_proyecto;
+    }
+    void setNota(vector<Notas> nota)
+    {
+        this->nota = nota;
+    }
+    void setTarea(vector<Tareas> tarea)
+    {
+        this->tarea = tarea;
+    }
+
+    void estado_tareas(vector<Proyecto> proyectos)
+    {
+        for (const auto &proyecto : proyectos)
+        {
+            cout << "Nombre del proyecto: " << proyecto.nombre << endl;
+            cout << "Estados de las tareas:" << endl;
+            for (const auto &tareas : proyectos.tarea)
+            {
+                cout << "Nombre de la tarea: " << tareas.nombre_tarea << endl;
+                cout << "Estado de la tarea: " << tareas.estado << endl;
+                cout << "Prioridad de la tarea: " << tareas.prioridad << endl;
+            }
+        }
+    }
 };
 
 int main()
@@ -131,6 +207,11 @@ int main()
     {
         cout << reaccion2[i] << endl;
     }
+
+    Proyecto proyecto1;
+    proyecto1.setNombre("proyecto 1"); // nombre del proyecto
+    proyecto1.setTarea("1. hacer el loguing.");
+    mostrarEstadosTareas(proyecto1);
 }
 
 /*

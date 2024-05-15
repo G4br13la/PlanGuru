@@ -49,7 +49,7 @@ void showTasks(const Project& project)
     for (const Task& task : project.tasks) 
     {
         cout << "Name: " << task.name << endl;
-        cout << "Satet: " << task.status << endl;
+        cout << "State: " << task.status << endl;
         cout << "Priority: " << task.priority << endl;
         cout << "Responsable: " << task.responsable << endl;
         cout << "Deadline: " << task.deadline << endl;
@@ -134,7 +134,7 @@ void addTask(Project& project)
     cout << "Prioridad: ";
     getline(cin, newTask.priority);
     cout << "Responsable: ";
-    getline(cin, newTask.responsible);
+    getline(cin, newTask.responsable);
     cout << "Fecha límite: ";
     getline(cin, newTask.deadline);
     cout << "Resumen: ";
@@ -142,7 +142,7 @@ void addTask(Project& project)
     
     while (true) {
         Note newNote;
-        cout << "Agregar nota a la tarea (S/N)? ";
+        cout << "Add note to the work (S/N)? ";
         char choice;
         cin >> choice;
         
@@ -160,29 +160,29 @@ void addTask(Project& project)
     }
     
     project.tasks.push_back(newTask);
-    cout << "Tarea agregada al proyecto." << endl;
+    cout << "Task added to project." << endl;
 }
 
 void showTasks(const Project& project) 
 {
-    cout << "Tareas en el proyecto '" << project.name << "':" << endl;
+    cout << "Tasks in the project '" << project.name << "':" << endl;
     for (const Task& task : project.tasks) 
     {
-        cout << "Nombre: " << task.name << endl;
-        cout << "Estado: " << task.status << endl;
-        cout << "Prioridad: " << task.priority << endl;
+        cout << "Name: " << task.name << endl;
+        cout << "State: " << task.status << endl;
+        cout << "Priority: " << task.priority << endl;
         cout << "Responsable: " << task.responsible << endl;
-        cout << "Fecha límite: " << task.deadline << endl;
-        cout << "Resumen: " << task.summary << endl;
+        cout << "Dead line: " << task.deadline << endl;
+        cout << "Resume: " << task.summary << endl;
         
         if (!task.notes.empty()) 
         {
             cout << "Notas:" << endl;
             for (const Note& note : task.notes) 
             {
-                cout << "  - Título: " << note.title << endl;
-                cout << "    Autor: " << note.author << endl;
-                cout << "    Descripción: " << note.description << endl;
+                cout << "Title: " << note.title << endl;
+                cout << "Author: " << note.author << endl;
+                cout << "Description: " << note.description << endl;
             }
         }
         
@@ -193,14 +193,14 @@ void showTasks(const Project& project)
 int main() 
 {
     Project myProject;
-    myProject.name = "Mi Proyecto";
+    myProject.name = "My Proyect";
 
     while (true) 
     {
-        cout << "1. Agregar tarea" << endl;
-        cout << "2. Mostrar tareas" << endl;
+        cout << "1. Add work" << endl;
+        cout << "2. Show work" << endl;
         cout << "3. Salir" << endl;
-        cout << "Ingrese su opción: ";
+        cout << "Get out: ";
         int choice;
         cin >> choice;
         
@@ -213,10 +213,10 @@ int main()
                 showTasks(myProject);
                 break;
             case 3:
-                cout << "Saliendo..." << endl;
+                cout << "Getting out..." << endl;
                 return 0;
             default:
-                cout << "Opción no válida. Por favor, ingrese una opción válida." << endl;
+                cout << "Invalid option. Please enter a valid option." << endl;
         }
     }
 
@@ -228,78 +228,82 @@ int main()
 #include <vector>
 #include <string>
 
-class Proyecto {
+class Proyecto 
+{
 private:
-    std::string nombre;
-    std::string descripcion;
-    std::string fechaInicio;
-    std::string fechaFin;
+    string name;
+    string description;
+    string startDate;
+    string endDate;
 
 public:
-    // Constructor
-    Proyecto(std::string nombre, std::string descripcion, std::string fechaInicio, std::string fechaFin) 
-        : nombre(nombre), descripcion(descripcion), fechaInicio(fechaInicio), fechaFin(fechaFin) {}
+    Proyecto(string nombre, string descripcion, string fechaInicio, string fechaFin) 
+        : name(name), description(description), startDate(startDate), endDate(endDate) {}
 
-    // Método para mostrar los detalles del proyecto
-    void mostrarDetalles() const {
-        std::cout << "Nombre: " << nombre << std::endl;
-        std::cout << "Descripción: " << descripcion << std::endl;
-        std::cout << "Fecha de Inicio: " << fechaInicio << std::endl;
-        std::cout << "Fecha de Finalización: " << fechaFin << std::endl;
+    void showDetails() const 
+    {
+        cout << "Name: " << name << endl;
+        cout << "Description: " << description << endl;
+        cout << "Start date: " << startDate << endl;
+        cout << "Finish date: " << finishDate << endl;
     }
 };
 
-// Función para añadir un nuevo proyecto
-void agregarProyecto(std::vector<Proyecto>& proyectos) {
-    std::string nombre, descripcion, fechaInicio, fechaFin;
+void addProyect(vector<Proyect>& proyects) 
+    {
+    string name, description, startDate, finishDate;
+    
+    cout << "Enter the project name: ";
+    getline(cin, name);
+    cout << "Ingrese la descripción del proyecto: ";
+    getline(cin, description);
+    cout << "Enter the project start date (YYYY-MM-DD): ";
+    getline(cin, startDate);
+    cout << "Enter the project end date (YYYY-MM-DD): ";
+    getline(cin, finishDate);
 
-    std::cout << "Ingrese el nombre del proyecto: ";
-    std::getline(std::cin, nombre);
-    std::cout << "Ingrese la descripción del proyecto: ";
-    std::getline(std::cin, descripcion);
-    std::cout << "Ingrese la fecha de inicio del proyecto (YYYY-MM-DD): ";
-    std::getline(std::cin, fechaInicio);
-    std::cout << "Ingrese la fecha de finalización del proyecto (YYYY-MM-DD): ";
-    std::getline(std::cin, fechaFin);
-
-    Proyecto nuevoProyecto(nombre, descripcion, fechaInicio, fechaFin);
-    proyectos.push_back(nuevoProyecto);
+    Proyect addProyect(name, description, startDate, finishDate);
+    proyects.push_back(addProyect);
 }
 
-// Función para mostrar los detalles de todos los proyectos
-void mostrarProyectos(const std::vector<Proyecto>& proyectos) {
-    for (const auto& proyecto : proyectos) {
-        proyecto.mostrarDetalles();
-        std::cout << "---------------------" << std::endl;
+void showProjects (const vector<Proyect>& proyects) 
+{
+    for (const auto& proyect : proyects) 
+    {
+        proyect.showDetails();
+        cout << "---------------------" << endl;
     }
 }
 
-int main() {
-    std::vector<Proyecto> proyectos;
+int main() 
+    {
+    vector<Proyect> proyects;
     int opcion;
 
-    do {
-        std::cout << "1. Agregar Proyecto" << std::endl;
-        std::cout << "2. Mostrar Proyectos" << std::endl;
-        std::cout << "3. Salir" << std::endl;
-        std::cout << "Seleccione una opción: ";
-        std::cin >> opcion;
-        std::cin.ignore(); // Ignorar el salto de línea después de la opción
+    do 
+    {
+        cout << "1. Add project" << endl;
+        cout << "2. Show Projects" << endl;
+        cout << "3. Get out" << endl;
+        cout << "Select an option: ";
+        cin >> option;
 
-        switch (opcion) {
+        switch (option) 
+        {
             case 1:
-                agregarProyecto(proyectos);
+                addProyect(proyects);
                 break;
             case 2:
-                mostrarProyectos(proyectos);
+                showProyects(proyectos);
                 break;
             case 3:
-                std::cout << "Saliendo..." << std::endl;
+                cout << "Getting out..." << endl;
                 break;
             default:
-                std::cout << "Opción no válida. Intente de nuevo." << std::endl;
+                cout << "Invalid option. Try again." << endl;
         }
-    } while (opcion != 3);
+    } 
+        while (opcion != 3);
 
     return 0;
 }

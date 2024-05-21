@@ -75,7 +75,7 @@ public:
             cout << "No se encontró " << nombre_nota << "en las notas" << endl;
         }
     }
-
+//11. mostrar las notas
     void mostrar_notas(string nota)
     {
         auto iterador = nombre_notas.find(nota); // busca el titulo de la nota en el vector de titulos
@@ -163,7 +163,7 @@ private:
     {
         this->tarea = tarea;
     }
-
+//10. mostrar el estado de las tareas
     void estado_tareas(vector<Proyecto> proyectos)
     {
         for (const auto &proyecto : proyectos)

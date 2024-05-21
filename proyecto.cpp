@@ -60,6 +60,7 @@ public:
         this->reacciones = reaciones;
     }
 
+//5. El sistema debe permitir agregar reacciones a las notas creadas.
     void agregar_reaccion(string nombre_nota, string nueva_reaccion)
     {
         auto iterador = nombre_notas.find(nombre_nota);

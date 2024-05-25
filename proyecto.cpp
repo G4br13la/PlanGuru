@@ -8,7 +8,7 @@
 #include <map>
 #include <vector>
 using namespace std;
-
+//1. crear usuario
 class Usuario
 {
 private:
@@ -170,6 +170,7 @@ public:
         this->comentarios = comentarios;
     }
 
+    //3.crear tareas
     void crear_Tarea(set<Tareas> tareas)
     {
         Tareas tarea;
@@ -195,6 +196,8 @@ public:
         cout << "" << endl;
     }
 
+    //7. El sistema debe permitir que a cada tarea se le pueda asignar una o más
+responsables.
     // void asignar_tarea_persona(set<Tareas> &tarea, set<Usuario> persona)
     // {
     //     string nombre_tarea;
@@ -236,13 +239,51 @@ public:
     //     cout << "tarea asignada a: " << endl;
     // }
 
-    // void ordenar_tarea_prioridad()
-    // {
-    //     string prioridad_alta;
-    //     string prioridad_media;
-    //     string prioridad_baja;
-    // }
+    // 12.el sistema debe permitir oredenar las tareas por prioridad
+    void ordenar_tarea_prioridad(set<Tareas> &tarea) // Añadí una referencia para modificar el conjunto
+    {
+        vector<string> prioridad_alta;
+        vector<string> prioridad_media;
+        vector<string> prioridad_baja;
+        string nombre_tarea;
+        string priority;
+
+        cout << "Escriba el nombre de la tarea: " << endl;
+        cin.ignore();
+        getline(cin, nombre_tarea);
+        cout << "Asignele una prioridad(alta, media o baja): " << endl;
+        getline(cin, priority);
+
+        // Crear una tarea temporal solo con el nombre para buscarla en el conjunto
+        Tareas tarea_busqueda;
+        tarea_busqueda.setNombre_tarea(nombre_tarea);
+
+        auto iterador = tarea.find(tarea_busqueda);
+        if (iterador != tarea.end())
+        {
+            if (iterador != tarea.end())
+            {
+                cout << "Se encontró la tarea." << endl;
+                if (priority == "alta")
+                {
+                    prioridad_alta.push_back(iterador->getNombre_tarea());
+                    cout << "Tarea asignada a prioridad alta" << endl;
+                }
+                else if (priority == "media")
+                {
+                    prioridad_media.push_back(iterador->getNombre_tarea());
+                    cout << "Tarea asignada a prioridad alta" << endl;
+                }
+                else if (priority == "baja")
+                {
+                    prioridad_baja.push_back(iterador->getNombre_tarea());
+                    cout << "Tarea asignada a prioridad baja" << endl;
+                }
+            }
+        }
+    }
 };
+
 
 class Proyecto
 {
@@ -317,6 +358,7 @@ public:
     //     tareas.erase(tareas.begin() + indice);
     // }
 
+    //2.crear proyecto
     void CrearProyecto(set<Proyecto> proyectos)
     {
         Proyecto proyecto;
@@ -352,21 +394,23 @@ public:
         }
     }
 
-    // void estado_tareas(vector<Proyecto> proyectos)
-    // {
-    //     for (const auto &proyecto : proyectos)
-    //     {
-    //         cout << "Nombre del proyecto: " << proyecto.nombre_proyecto << endl;
-    //         cout << "Estados de las tareas:" << endl;
-    //         for (const auto &tarea : proyecto.tareas)
-    //         {
-    //             cout << "Nombre de la tarea: " << tarea.nombre_tarea << endl;
-    //             cout << "Estado de la tarea: " << tarea.estado << endl;
-    //             cout << "Prioridad de la tarea: " << tarea.prioridad << endl;
-    //         }
-    //     }
-    // }
+    // 10. el sistema debe permitir mostrar los estados de las tareas
+    //  void estado_tareas(vector<Proyecto> proyectos)
+    //  {
+    //      for (const auto &proyecto : proyectos)
+    //      {
+    //          cout << "Nombre del proyecto: " << proyecto.nombre_proyecto << endl;
+    //          cout << "Estados de las tareas:" << endl;
+    //          for (const auto &tarea : proyecto.tareas)
+    //          {
+    //              cout << "Nombre de la tarea: " << tarea.nombre_tarea << endl;
+    //              cout << "Estado de la tarea: " << tarea.estado << endl;
+    //              cout << "Prioridad de la tarea: " << tarea.prioridad << endl;
+    //          }
+    //      }
+    //  }
 
+    //8. el sisetma debe permitir mostrar los proyectos creados con sus detalles.
     // void mostrar_proyectos() const
     // {
     //     cout << "nombre del proyecto: " << nombre_proyecto << endl;
@@ -375,7 +419,9 @@ public:
     //     cout << "estado del proyecto: " << estado_proyecto << endl;
     // }
 };
-
+    //6. El sistema debe permitir que a cada uno de los proyectos creados se le pueda
+asignar una o más tareas
+   
 void asignar_tarea_a_proyecto(map<string, Proyecto> proyectos, map<string, Tareas> tareas)
 {
     string nombre_proyecto, nombre_tarea;
@@ -447,7 +493,7 @@ public:
     {
         this->reacciones = reaciones;
     }
-
+    //4. El sistema debe permitir agregar una o más notas a cada proyecto y/o tareas, incluyendo título de la nota, autor de la nota y descripción.
     // void agregar_notas_tareas(map<string, Tareas> tarea, map<string, vector<Nota>> &notas)
     // {
     //     while (true)
@@ -502,6 +548,7 @@ public:
     //     }
     // }
 
+    // 5. El sistema debe permitir agregar reacciones a las notas creadas.
     void agregar_reaccion(string titulo_nota, string nueva_reaccion, set<string> titulos_notas)
     {
         auto iterador = titulos_notas.find(titulo_nota);
@@ -516,7 +563,7 @@ public:
             cout << "NO se encontró " << titulo_nota << " en las notas" << endl;
         }
     }
-
+    // 11. el sistema debe permitir mostrar las notas
     void mostrar_notas(string nota, set<string> titulos_notas)
     {
         auto iterador = titulos_notas.find(nota); // busca el titulo de la nota en el vector de titulos

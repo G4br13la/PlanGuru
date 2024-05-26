@@ -168,3 +168,132 @@ int main(){
         cout << "Tarea añadida al proyecto con su respecito responsable" << endl; 
 
     };
+
+// 15. El sistema debe permitir cambiar el estado de la tarea.
+
+    class Tarea {
+    public:
+        Tarea(const string& nombre, const string& estado = "Pendiente")
+            : nombre(nombre), estado(estado) {}
+
+        void cambiarEstado(const string& nuevoEstado) {
+            estado = nuevoEstado;
+            cout << "El estado de la tarea '" << nombre << "' ha cambiado a: " << estado << endl;
+        }
+
+        string getNombre() const { return nombre; }
+        string getEstado() const { return estado; }
+
+    private:
+        string nombre;
+        string estado;
+    };
+
+    class GestorDeTareas {
+    public:
+        void agregarTarea(const string& nombre) {
+            tareas.emplace_back(nombre);
+            cout << "Tarea '" << nombre << "' ha sido agregada." << endl;
+        }
+
+        void listarTareas() const {
+            for (const auto& tarea : tareas) {
+                cout << "Tarea: " << tarea.getNombre() << ", Estado: " << tarea.getEstado() << endl;
+            }
+        }
+
+        void cambiarEstadoTarea(const string& nombre, const string& nuevoEstado) {
+            for (auto& tarea : tareas) {
+                if (tarea.getNombre() == nombre) {
+                    tarea.cambiarEstado(nuevoEstado);
+                    return;
+                }
+            }
+            cout << "No se encontró la tarea con nombre '" << nombre << "'." << endl;
+        }
+
+    private:
+        vector<Tarea> tareas;
+    };
+
+    int main() {
+        GestorDeTareas gestor;
+        gestor.agregarTarea("Comprar leche");
+        gestor.agregarTarea("Estudiar C++");
+        gestor.listarTareas();
+
+        gestor.cambiarEstadoTarea("Comprar leche", "En Proceso");
+        gestor.cambiarEstadoTarea("Estudiar C++", "Completada");
+        gestor.listarTareas();
+
+        return 0;
+    }
+
+// 18. El sistema debe permitir realizar dos tipos de búsqueda, cada equipo debe definir cuáles
+
+class Proyecto {
+public:
+    Proyecto(const string& nombre, const string& fecha)
+        : nombre(nombre), fecha(fecha) {}
+
+    string getNombre() const { return nombre; }
+    string getFecha() const { return fecha; }
+
+private:
+    string nombre;
+    string fecha;
+};
+
+class GestorDeProyectos {
+public:
+    void agregarProyecto(const string& nombre, const string& fecha) {
+        proyectos.push_back(Proyecto(nombre, fecha));
+        cout << "Proyecto '" << nombre << "' agregado para la fecha " << fecha << endl;
+    }
+
+    vector<Proyecto> buscarPorNombre(const std::string& nombre) const {
+        vector<Proyecto> resultados;
+        for (const auto& proyecto : proyectos) {
+            if (proyecto.getNombre() == nombre) {
+                resultados.push_back(proyecto);
+            }
+        }
+        return resultados;
+    }
+
+    vector<Proyecto> buscarPorFecha(const string& fecha) const {
+        vector<Proyecto> resultados;
+        for (const auto& proyecto : proyectos) {
+            if (proyecto.getFecha() == fecha) {
+                resultados.push_back(proyecto);
+            }
+        }
+        return resultados;
+    }
+
+private:
+    vector<Proyecto> proyectos;
+};
+
+int main() {
+    GestorDeProyectos gestor;
+
+    gestor.agregarProyecto("Proyecto 1", "2023-05-25");
+    gestor.agregarProyecto("Proyecto 2", "2023-05-26");
+    gestor.agregarProyecto("Proyecto 3", "2023-05-25");
+
+    cout << "Búsqueda por nombre (Proyecto 1):" << endl;
+    auto resultadosNombre = gestor.buscarPorNombre("Proyecto 1");
+    for (const auto& proyecto : resultadosNombre) {
+        cout << "Nombre: " << proyecto.getNombre() << ", Fecha: " << proyecto.getFecha() << endl;
+    }
+
+    cout << "Búsqueda por fecha (2023-05-25):" << endl;
+    auto resultadosFecha = gestor.buscarPorFecha("2023-05-25");
+    for (const auto& proyecto : resultadosFecha) {
+        cout << "Nombre: " << proyecto.getNombre() << ", Fecha: " << proyecto.getFecha() << endl;
+    }
+
+    return 0;
+}
+

@@ -230,6 +230,64 @@ int main(){
     }
 
 // 18. El sistema debe permitir realizar dos tipos de búsqueda, cada equipo debe definir cuáles
+class Elemento {
+public:
+    Elemento(const string& nombre) : nombre(nombre) {}
+
+    string getNombre() const { return nombre; }
+
+private:
+    string nombre;
+};
+
+bool buscarLineal(const vector<Elemento>& elementos, const string& nombre) {
+    for (const auto& elemento : elementos) {
+        if (elemento.getNombre() == nombre) {
+            return true;
+        }
+    }
+    return false;
+}
+
+int main() {
+    Elemento elem1("1");
+    Elemento elem2("2");
+    Elemento elem3("3");
+
+    // Ejemplo de búsqueda lineal en un vector
+    vector<Elemento> elementosVector = {elem1, elem2, elem3};
+    string nombreBuscado = "2";
+    cout << "Búsqueda lineal en un vector:" << std::endl;
+    if (buscarLineal(elementosVector, nombreBuscado)) {
+        std::cout << "El elemento '" << nombreBuscado << "' fue encontrado en el vector." << endl;
+    } else {
+        cout << "El elemento '" << nombreBuscado << "' no fue encontrado en el vector." << endl;
+    }
+
+    // Ejemplo de búsqueda en un conjunto
+    set<string> elementosSet = {"1", "2", "3"};
+    nombreBuscado = "3";
+    cout << "Búsqueda en un conjunto:" << endl;
+    if (elementosSet.find(nombreBuscado) != elementosSet.end()) {
+        cout << "El elemento '" << nombreBuscado << "' fue encontrado en el conjunto." << endl;
+    } else {
+        cout << "El elemento '" << nombreBuscado << "' no fue encontrado en el conjunto." << endl;
+    }
+
+    map<string, int> elementosMapa = {{"1", 1}, {"2", 2}, {"3", 3}};
+    nombreBuscado = "1";
+    cout << "Búsqueda en un mapa:" << endl;
+    if (elementosMapa.find(nombreBuscado) != elementosMapa.end()) {
+        cout << "El elemento '" << nombreBuscado << "' fue encontrado en el mapa." << endl;
+    } else {
+        cout << "El elemento '" << nombreBuscado << "' no fue encontrado en el mapa." << endl;
+    }
+
+    return 0;
+}
+
+
+// 19. El sistema debe mostrar los proyectos por fechas.
 
 class Proyecto {
 public:

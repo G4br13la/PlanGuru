@@ -126,17 +126,17 @@ struct Project
 void addTask(Project& project) 
 {
     Task newTask;
-    cout << "Nombre de la tarea: ";
+    cout << "Name of the homework: ";
     getline(cin, newTask.name);
-    cout << "Estado: ";
+    cout << "Status: ";
     getline(cin, newTask.status);
-    cout << "Prioridad: ";
+    cout << "Priority: ";
     getline(cin, newTask.priority);
     cout << "Responsable: ";
     getline(cin, newTask.responsable);
     cout << "Dead line: ";
     getline(cin, newTask.deadline);
-    cout << "Resumen: ";
+    cout << "Resume: ";
     getline(cin, newTask.summary);
     
     while (true) {
@@ -170,7 +170,7 @@ void showTasks(const Project& project)
         cout << "Name: " << task.name << endl;
         cout << "State: " << task.status << endl;
         cout << "Priority: " << task.priority << endl;
-        cout << "Responsable: " << task.responsible << endl;
+        cout << "Responsable: " << task.responsable << endl;
         cout << "Dead line: " << task.deadline << endl;
         cout << "Resume: " << task.summary << endl;
         
@@ -309,9 +309,344 @@ int main()
 
 
 // 9. El sistema debe permitir mostrar las tareas de cada uno de sus proyectos.
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Task 
+{
+
+private:
+    string name;
+    string description;
+
+public:
+    Task(const string& name, const string& description)
+        : name(name), description(description) {}
+
+    void showTask() const {
+        cout << "Name: " << name << ", Description: " << description << endl;
+    }
+};
+
+class Project {
+
+private:
+    string name;
+    vector<Task> tasks;
+
+public:
+    Project(const string& name) : name(name) {}
+
+    void addTask(const Task& task) 
+    {
+        tasks.push_back(task);
+    }
+
+    void showTasks() const 
+    {
+        cout << "Project: " << name << endl;
+        for (const auto& task : tasks) 
+        {
+            task.showTask();
+        }
+    }
+};
+
+class ProjectSystem 
+{
+private:
+    vector<Project> projects;
+public:
+    void addProject(const Project& project) 
+    {
+        projects.push_back(project);
+    }
+
+    void showProjectTasks() const 
+    {
+        for (const auto& project : projects) 
+        {
+            project.showTasks();
+        }
+    }
+};
+
+int main() 
+{
+    Task task1("Create Trello", "Add the tasks you need to complete during all the proyect.");
+    Task task2("Create the codes of the proyect", "Develop the first 8 point of the proyect.");
+    Task task3("Join all the codes", "Joint in the order that the program runse.");
+
+    Project project1("Development Project");
+    project1.addTask(task1);
+    project1.addTask(task2);
+
+    Project project2("Design Project");
+    project2.addTask(task3);
+
+    ProjectSystem system;
+    system.addProject(project1);
+    system.addProject(project2);
+
+    system.showProjectTasks();
+
+    return 0;
+}
+
 
 
 // 13. El sistema debe permitir organizar los responsables por nombre.
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Task 
+{
+private:
+    string name;
+    string description;
+
+public:
+    Task(const string& name, const string& description)
+        : name(name), description(description) {}
+
+    void showTask() const 
+    {
+        cout << "Name: " << name << ", Description: " << description << endl;
+    }
+};
+
+class Project 
+{
+private:
+    string name;
+    vector<Task> tasks;
+
+public:
+    Project(const string& name) : name(name) {}
+
+    void addTask(const Task& task) 
+    {
+        tasks.push_back(task);
+    }
+
+    void showTasks() const 
+    {
+        cout << "Project: " << name << endl;
+        for (const auto& task : tasks) 
+        {
+            task.showTask();
+        }
+    }
+};
+
+class ProjectSystem 
+{
+private:
+    vector<Project> projects;
+
+public:
+    void addProject(const Project& project) 
+    {
+        projects.push_back(project);
+    }
+
+    void showProjectTasks() const 
+    {
+        for (const auto& project : projects) 
+        {
+            project.showTasks();
+        }
+    }
+};
+
+int main() 
+{
+    Task task1("Create Trello", "Add the tasks you need to complete during all the proyect.");
+    Task task2("Create the codes of the proyect", "Develop the first 8 point of the proyect.");
+    Task task3("Join all the codes", "Joint in the order that the program runse.");
+
+    Project project1 ("Development Project");
+    project1.addTask (task1);
+    project1.addTask (task2);
+
+    Project project2 ("Design Project");
+    project2.addTask (task3);
+
+    ProjectSystem system;
+    system.addProject(project1);
+    system.addProject(project2);
+
+    system.showProjectTasks();
+
+    return 0;
+}
+
 
 // 14. El sistema debe permitir hacer consultas de proyectos por nombres y 
 // mostrar las tareas que cada uno contiene.
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Task 
+{
+private:
+    string name;
+    string description;
+
+public:
+    Task(const string& name, const string& description)
+        : name(name), description(description) {}
+
+    void showTask() const 
+    {
+        cout << "Name: " << name << ", Description: " << description << endl;
+    }
+};
+
+class Project 
+{
+private:
+    string name;
+    vector<Task> tasks;
+
+public:
+    Project(const string& name) : name(name) {}
+
+    void addTask(const Task& task) 
+    {
+        tasks.push_back(task);
+    }
+
+    void showTasks() const 
+    {
+        cout << "Project: " << name << endl;
+        for (const auto& task : tasks) 
+        {
+            task.showTask();
+        }
+    }
+
+    string getName() const 
+    {
+        return name;
+    }
+};
+
+class ProjectSystem 
+{
+private:
+    vector<Project> projects;
+
+public:
+    void addProject(const Project& project) 
+    {
+        projects.push_back(project);
+    }
+
+    void showProjectTasks() const 
+    {
+        for (const auto& project : projects) 
+        {
+            project.showTasks();
+        }
+    }
+
+    void findProjectByName(const string& name) const 
+    {
+        bool found = false;
+        for (const auto& project : projects) 
+        {
+            if (project.getName() == name) 
+            {
+                project.showTasks();
+                found = true;
+                break;
+            }
+        }
+        if (!found) 
+        {
+            cout << "Project not founded: " << name << endl;
+        }
+    }
+};
+
+int main() 
+{
+    Task task1("Create Trello", "Add the tasks you need to complete during the project.");
+    Task task2("Create the codes of the project", "Develop the first 8 points of the project.");
+    Task task3("Join all the codes", "Joint in the order that the program runs.");
+
+    Project project1 ("Development Project");
+    project1.addTask (task1);
+    project1.addTask (task2);
+
+    Project project2 ("Design Project");
+    project2.addTask (task3);
+
+    ProjectSystem system;
+    system.addProject(project1);
+    system.addProject(project2);
+
+    system.showProjectTasks();
+
+    return 0;
+   
+    cout << "All the projects and their tasks:" << endl;
+    system.showProjectTasks();
+
+    cout << "Finding project by name 'Development Project':" << endl;
+    system.findProjectByName("Development Project");
+
+    cout << "Searching for the project by the name 'Non-existent Project':" << endl;
+    system.findProjectByName("Non-existent Project");
+
+    return 0;
+}
+
+//19. El sistema debe mostrar los proyetos por fechas
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+struct Project 
+{
+    string name;
+    string date; 
+};
+
+bool compareProjectsByDate(const Project& a, const Project& b) 
+{
+    return a.date < b.date;
+}
+
+int main() 
+{
+    vector<Project> projects = 
+    {
+        {"Project A", "2024-05-10"},
+        {"Project B", "2024-07-14"},
+        {"Project C", "2024-04-20"}
+    };
+
+    sort(projects.begin(), projects.end(), compareProjectsByDate);
+
+    cout << "Proyectos ordenados por fecha:" << endl;
+    for (const auto& project : projects) 
+    {
+        cout << "Name: " << project.name << ", Date: " << project.date << endl;
+    }
+
+    return 0;
+}

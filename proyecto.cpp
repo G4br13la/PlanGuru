@@ -103,6 +103,7 @@ public:
     };
 };
 
+// 5. El sistema debe permitir agregar reacciones a las notas creadas.
 class Notas
 {
 private:
@@ -153,7 +154,7 @@ public:
     {
         this->reacciones = reaciones;
     }
-    // 11. el sistema debe permitir mostrar las notas
+// 11. el sistema debe permitir mostrar las notas
     void mostrar_notas(string nota, set<string> titulos_notas)
     {
         auto iterador = titulos_notas.find(nota); // busca el titulo de la nota en el vector de titulos
@@ -169,7 +170,6 @@ public:
             cout << " No se encontró " << nota << "en las notas" << endl;
         }
     }
-    // 5. El sistema debe permitir agregar reacciones a las notas creadas.
     void agregar_reaccion(string titulo_nota, string nueva_reaccion, set<string> titulos_notas)
     {
         auto iterador = titulos_notas.find(titulo_nota);
@@ -186,6 +186,7 @@ public:
     }
 };
 
+// 3.crear tareas
 class Tareas
 {
 private:
@@ -267,7 +268,6 @@ public:
         notas.push_back(nota);
     }
 
-    // 3.crear tareas
     void crear_Tarea(set<Tareas> tareas)
     {
         Tareas tarea;
@@ -380,6 +380,7 @@ public:
     }
 };
 
+// 2
 class Proyecto
 {
 private:

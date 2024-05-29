@@ -24,7 +24,15 @@ public:
         this->clave = clave;
         this->correo = correo;
     }
-    string getNombre_usuario()
+
+    Usuario(string nombre_usuario)
+    {
+        this->nombre_usuario = nombre_usuario;
+        this->clave = "";
+        this->correo = "";
+    }
+
+    string getNombre_usuario() const
     {
         return nombre_usuario;
     }
@@ -103,7 +111,6 @@ public:
     };
 };
 
-// 5. El sistema debe permitir agregar reacciones a las notas creadas.
 class Notas
 {
 private:
@@ -121,15 +128,15 @@ public:
         this->comentarios = comentarios;
         this->reacciones = reacciones;
     }
-    string getTitulo_notas()
+    string getTitulo_notas() const
     {
         return titulo_nota;
     }
-    string getAutor_nota()
+    string getAutor_nota() const
     {
         return autor_nota;
     }
-    string getComentarios()
+    string getComentarios() const
     {
         return comentarios;
     }
@@ -154,22 +161,7 @@ public:
     {
         this->reacciones = reaciones;
     }
-// 11. el sistema debe permitir mostrar las notas
-    void mostrar_notas(string nota, set<string> titulos_notas)
-    {
-        auto iterador = titulos_notas.find(nota); // busca el titulo de la nota en el vector de titulos
-        if (iterador != titulos_notas.end())      // si se encuentra el titulo
-        {
-            cout << " Se encontró " << nota << " en las notas" << endl;
-            cout << titulo_nota;
-            cout << autor_nota;
-            cout << comentarios;
-        }
-        else
-        {
-            cout << " No se encontró " << nota << "en las notas" << endl;
-        }
-    }
+    // 5. El sistema debe permitir agregar reacciones a las notas creadas.
     void agregar_reaccion(string titulo_nota, string nueva_reaccion, set<string> titulos_notas)
     {
         auto iterador = titulos_notas.find(titulo_nota);
@@ -186,7 +178,6 @@ public:
     }
 };
 
-// 3.crear tareas
 class Tareas
 {
 private:
@@ -208,6 +199,15 @@ public:
         this->comentarios = comentarios;
     }
 
+    Tareas(string nombre_tarea)
+    {
+        this->nombre_tarea = nombre_tarea;
+        this->estado = "";
+        this->prioridad = "";
+        this->responsable = "";
+        this->comentarios = "";
+    }
+
     bool operator<(const Tareas &otra) const
     {
         return nombre_tarea < otra.nombre_tarea;
@@ -225,7 +225,7 @@ public:
     {
         return prioridad;
     }
-    string getResponsable()
+    string getResponsable() const
     {
         return responsable;
     }
@@ -233,7 +233,7 @@ public:
     {
         return comentarios;
     }
-    vector<Notas> getNotas()
+    vector<Notas> getNotas() const
     {
         return notas;
     };
@@ -263,11 +263,27 @@ public:
         this->notas = notas;
     }
 
-    void agregar_nota(Notas nota)
+    /* 4. El sistema debe permitir agregar una o más notas a cada
+    proyecto y/o tareas, incluyendo título de la nota, autor de la nota y descripción.*/
+
+    void agregar_nota(set<Tareas> tareas, Notas nota)
     {
+        cout << "nombre de la tarea al que quiere ponerle una nota: " << endl;
+        string nombre_tarea;
+        cin >> nombre_tarea;
+        for (auto tarea : tareas)
+        {
+            if (tarea.getNombre_tarea() == nombre_tarea)
+            {
+                vector<Notas> notas;
+                notas.push_back(nota);
+                tarea.setNotas(notas);
+            }
+        }
         notas.push_back(nota);
     }
 
+    // 3.crear tareas
     void crear_Tarea(set<Tareas> tareas)
     {
         Tareas tarea;
@@ -292,48 +308,6 @@ public:
         cout << "tarea agregada" << endl;
         cout << "" << endl;
     }
-
-    // 7. El sistema debe permitir que a cada tarea se le pueda asignar una o más responsables.
-    // void asignar_tarea_persona(set<Tareas> &tarea, set<Usuario> persona)
-    // {
-    //     string nombre_tarea;
-    //     string nombre_usuario;
-    //     string tarea_no_encotrada;
-    //     string usuario_no_encontrado;
-
-    //     cout << "ingresa el nombre de la tarea";
-    //     cin.ignore();
-    //     getline(cin, nombre_tarea);
-    //     cout << "ingresa el nombre de la persona";
-    //     getline(cin, nombre_usuario);
-
-    //     auto iterador = tarea.find(nombre_tarea);
-
-    //     if (iterador != tarea.end())
-    //     {
-    //         cout << "Se encontró la tarea." << endl;
-    //         tarea.setNombre_tarea(nombre_tarea);
-    //     }
-    //     else
-    //     {
-    //         cout << "No se encontró la tarea. " << endl;
-    //     }
-
-    //     auto iterador2 = persona.find(nombre_usuario);
-
-    //     if (iterador != persona.end())
-    //     {
-    //         cout << "Se encontró al usuario." << endl;
-    //         persona.setNombre_usuario(nombre_usuario);
-    //     }
-    //     else
-    //     {
-    //         cout << "No se encontró el usuario. " << endl;
-    //     }
-
-    //     tarea.setResponsable(persona.getNombre_usuario());
-    //     cout << "tarea asignada a: " << endl;
-    // }
 
     // 12.el sistema debe permitir oredenar las tareas por prioridad
     void ordenar_tarea_prioridad(set<Tareas> &tarea) // Añadí una referencia para modificar el conjunto
@@ -378,9 +352,87 @@ public:
             }
         }
     }
+
+    // 15. El sistema debe permitir cambiar el estado de la tarea.
+    void cambiarEstado(set<Tareas> tarea)
+    {
+        string nuevoEstado;
+        cout << "Escriba el nombre de la tarea: " << endl;
+        cin.ignore();
+        getline(cin, nombre_tarea);
+        cout << "Escriba el nuevo estado de la tarea: " << endl;
+        getline(cin, nuevoEstado);
+        // Crear una tarea temporal solo con el nombre para buscarla en el conjunto
+        Tareas tarea_busqueda(nombre_tarea);
+        // tarea_busqueda.setNombre_tarea(nombre_tarea);
+        auto iterador = tarea.find(tarea_busqueda);
+        if (iterador != tarea.end())
+        {
+            Tareas estado_actualizado = *iterador;
+            cout << "Se encontró la tarea." << endl;
+            estado_actualizado.setEstado(nuevoEstado);
+            cout << "Estado de la tarea cambiado." << endl;
+
+            tarea.erase(iterador);
+            tarea.insert(estado_actualizado);
+        }
+
+        cout << "No se encontró la tarea con nombre '" << nombre_tarea << "'." << endl;
+        estado = nuevoEstado;
+        cout << "El estado de la tarea '" << nombre_tarea << "' ha cambiado a: " << estado << endl;
+    }
+
+    // 7. El sistema debe permitir que a cada tarea se le pueda asignar una o más responsables.
+
+    void asignarTareaPersona(set<Tareas> &tarea, set<Usuario> &persona)
+    {
+        string nombre_tarea;
+        string nombre_usuario;
+
+        cout << "ingresa el nombre de la tarea";
+        cin >> nombre_tarea;
+        cout << "ingresa el nombre de la persona";
+        cin >> nombre_usuario;
+        // Crear objetos temporales para la búsqueda
+        Tareas buscar_tarea(nombre_tarea);
+        Usuario buscar_usuario(nombre_usuario);
+
+        auto iterador_tarea = tarea.find(buscar_tarea);
+
+        if (iterador_tarea != tarea.end())
+        {
+            cout << "Se encontró la tarea." << endl;
+            // tarea.setNombre_tarea(nombre_tarea);
+        }
+        else
+        {
+            cout << "No se encontró la tarea. " << endl;
+        }
+
+        auto iterador_persona = persona.find(buscar_usuario);
+
+        if (iterador_persona != persona.end())
+        {
+            cout << "Se encontró al usuario." << endl;
+            // persona.setNombre_usuario(nombre_usuario);
+        }
+        else
+        {
+            cout << "No se encontró el usuario. " << endl;
+        }
+
+        // Asignar el responsable a la tarea
+        Tareas tarea_actualizada = *iterador_tarea;
+        tarea_actualizada.setResponsable(iterador_persona->getNombre_usuario());
+
+        // Actualizar el set de tareas
+        tarea.erase(iterador_tarea);
+        tarea.insert(tarea_actualizada);
+
+        cout << "Tarea asignada a: " << tarea_actualizada.getResponsable() << endl;
+    }
 };
 
-// 2
 class Proyecto
 {
 private:
@@ -388,6 +440,7 @@ private:
     string propietario;
     string descripcion;
     string estado_proyecto;
+    string fecha;
     set<Tareas> tareas;
     vector<Notas> notas;
 
@@ -423,7 +476,17 @@ public:
         return estado_proyecto;
     }
 
-    vector<Notas> getNotas()
+    string getFecha()
+    {
+        return fecha;
+    }
+
+    set<Tareas> getTareas()
+    {
+        return tareas;
+    };
+
+    vector<Notas> getNotas() const
     {
         return notas;
     };
@@ -450,14 +513,32 @@ public:
         this->estado_proyecto = estado_proyecto;
     }
 
+    void setFecha(string fecha)
+    {
+        this->fecha = fecha;
+    }
+
     void setNotas(vector<Notas> notas)
     {
         this->notas = notas;
     }
 
-    void agregar_nota(Notas nota)
+    /* 4. El sistema debe permitir agregar una o más notas a cada
+    proyecto y/o tareas, incluyendo título de la nota, autor de la nota y descripción.*/
+    void agregar_nota(set<Proyecto> proyectos, Notas nota)
     {
-        notas.push_back(nota);
+        cout << "nombre del proyecto al que quiere ponerle una nota: " << endl;
+        string nombre_proyecto;
+        cin >> nombre_proyecto;
+        for (auto proyecto : proyectos)
+        {
+            if (proyecto.getNombre_proyecto() == nombre_proyecto)
+            {
+                vector<Notas> notas;
+                notas.push_back(nota);
+                proyecto.setNotas(notas);
+            }
+        }
     }
     void agregar_tarea(Tareas tarea)
     {
@@ -479,6 +560,8 @@ public:
         cin >> propietario;
         cout << "Ingressa descripcion: ";
         cin >> descripcion;
+        cout << "Ingrese la fecha de inicio del proyecto(yy/mm/dd): ";
+        cin >> fecha;
 
         for (const auto &poyect : proyectos)
         {
@@ -520,7 +603,58 @@ public:
             cout << "Propietario del proyecto: " << proyecto.propietario << endl;
         }
     }
+
+    // 9. El sistema debe permitir mostrar las tareas de cada uno de sus proyectos.
+
+    void mostrar_tareas(Proyecto proyecto)
+    {
+        for (const auto &tarea : proyecto.getTareas())
+        {
+            cout << "Nombre de la tarea: " << tarea.getNombre_tarea() << endl;
+            cout << "Estado de la tarea: " << tarea.getEstado() << endl;
+            cout << "Prioridad de la tarea: " << tarea.getPrioridad() << endl;
+        }
+    }
+
+    // 19. El sistema debe mostrar los proyectos por fechas.
+    void proyecto_por_fecha(map<string, Proyecto> proyectos)
+    {
+        vector<Proyecto> lista_proyectos;
+        for (const auto &proyecto : proyectos)
+        {
+            lista_proyectos.push_back(proyecto.second);
+        }
+        for (const auto &proyecto : lista_proyectos)
+        {
+            cout << "Nombre del proyecto: " << proyecto.nombre_proyecto << endl;
+            cout << "Fecha de creación del proyecto: " << proyecto.fecha << endl;
+        }
+    }
 };
+
+// 18. El sistema debe permitir realizar dos tipos de búsqueda, cada equipo debe definir cuáles
+class Elemento
+{
+public:
+    Elemento(const string &nombre) : nombre(nombre) {}
+
+    string getNombre() const { return nombre; }
+
+private:
+    string nombre;
+};
+
+bool buscarLineal(const vector<Elemento> &elementos, const string &nombre)
+{
+    for (const auto &elemento : elementos)
+    {
+        if (elemento.getNombre() == nombre)
+        {
+            return true;
+        }
+    }
+    return false;
+}
 
 // 6. El sistema debe permitir que a cada uno de los proyectos creados se le pueda asignar una o más tareas
 void asignar_tarea_a_proyecto(map<string, Proyecto> proyectos, map<string, Tareas> tareas)
@@ -545,147 +679,193 @@ void asignar_tarea_a_proyecto(map<string, Proyecto> proyectos, map<string, Tarea
     cout << "tarea asignada al proyecto" << endl;
 }
 
-// 4. El sistema debe permitir agregar una o más notas a cada proyecto y/o tareas, incluyendo título de la nota, autor de la nota y descripción.
-// void agregar_notas_tareas(map<string, Tareas> tarea, map<string, vector<Notas>> &notas)
-// {
-//     while (true)
-//     {
-//         string opcion;
-//         cout << "¿Quiere agregarle un nota a la nota? si/no" << endl;
-//         cin >> opcion;
-//         if (opcion == "si")
-//         {
-//             Notas nueva_nota;
-//             cout << "Ingrese el titulo de la nota: " << endl;
-//             getline(cin, nueva_nota.getTitulo_notas());
-//             cout << "Ingrese el autor de la nota: " << endl;
-//             getline(cin, nueva_nota.getAutor_nota());
-//             cout << "Ingrese los comentarios de la nota: " << endl;
-//             getline(cin, nueva_nota.getComentarios());
-//             cout << "Ingrese las reacciones de la nota: " << endl;
-
-//             tarea.agrear_notas(nueva_nota);
-//         }
-//         else
-//         {
-//             break;
-//         }
-//     }
-// }
-
-// void agregar_notas_proyecto(map<Proyecto, vector<Notas>> & proyecto)
-// {
-//     while (true)
-//     {
-//         string opcion;
-//         cout << "¿Quiere agregarle un titulo al proyecto? si/no" << endl;
-//         cin >> opcion;
-//         if (opcion == "si")
-//         {
-//             Notas nueva_nota;
-//             cout << "Ingrese el titulo de la nota: " << endl;
-//             getline(cin, nueva_nota.titulo_notas);
-//             cout << "Ingrese el autor de la nota: " << endl;
-//             getline(cin, nueva_nota.autor_nota);
-//             cout << "Ingrese los comentarios de la nota: " << endl;
-//             getline(cin, nueva_nota.comentarios);
-//             cout << "Ingrese las reacciones de la nota: " << endl;
-
-//             proyecto.Notas.push_back(nueva_nota);
-//         }
-//         else
-//         {
-//             break;
-//         }
-//     }
-// }
-
-// class Interfaz
-// {
-// public:
-//     void mostrarMenu()
-//     {
-//         int opcion;
-//         do
-//         {
-//             cout << "Bienvenido." << endl;
-//             cout << " " << endl;
-//             cout << "¿Que quieres hacer?" << endl;
-//             cout << " " << endl;
-//             cout << "1. Login ." << endl;
-//             cout << "2. Crear Proyecto" << endl;
-//             cout << "3. Crear tareas." << endl;
-//             cout << "4. Asignar tareas." << endl;
-//             cout << "5. Agregar notas." << endl;
-//             cout << "6. reacionar a las notas." << endl;
-//             cout << "7. Ver el estado de los proyectos o tareas." << endl;
-//             cout << " " << endl;
-//             cout << "¡Buena suerte!" << endl;
-//             cout << " " << endl;
-//             cout << "EMPECEMOS :D : " << endl;
-//             cout << " " << endl;
-//             cout << "Ingrese su opción: ";
-//             cin >> opcion;
-
-//             switch (opcion)
-//             {
-//             case 1:
-//                 Fijas_Picas();
-//                 break;
-//             case 2:
-//                 Tres_en_linea();
-//                 break;
-//             case 3:
-//                 cout << "Saliendo del programa..." << endl;
-//                 break;
-//             default:
-//                 cout << "Opción inválida. Por favor, ingrese una opción válida." << endl;
-//                 break;
-//             }
-//         } while (opcion != 3);
-//     }
-// }
-
-int main()
+// 13. El sistema debe permitir organizar los responsables por nombre.
+void responsables_Por_nombre(Proyecto proyecto)
 {
-    Usuario usuario;
-    set<Usuario> usuarios;
-    usuario.registro(usuarios);
+    vector<string> responsables;
+    for (const auto tarea : proyecto.getTareas())
+    {
+        responsables.push_back(tarea.getResponsable());
+    }
+    sort(responsables.begin(), responsables.end());
 
-    // set<string> titulo_notas;
-    // Notas nota1;
-
-    // nota1.setTitulo_notas("prueba 1");
-    // titulo_notas.insert("prueba 1");
-    // nota1.setAutor_nota("gabs");
-    // nota1.agregar_reaccion("prueba 1", "no me gusta .-.", titulo_notas);
-    // nota1.agregar_reaccion("prueba 1", "no me gusta x2 .-.", titulo_notas);
-    // nota1.mostrar_notas("prueba 1", titulo_notas);
-
-    // Notas nota2;
-
-    // nota2.setTitulo_notas("prueba 2");
-    // titulo_notas.insert("prueba 2");
-    // nota2.setAutor_nota("santiago");
-    // nota2.agregar_reaccion("prueba 2", "si me gusta .-.", titulo_notas);
-    // nota2.agregar_reaccion("prueba 2", "si me gusta x2 .-.", titulo_notas);
-    // nota1.mostrar_notas("prueba 2", titulo_notas);
-
-    // vector<string> reaccion1 = nota1.getReacciones();
-    // vector<string> reaccion2 = nota2.getReacciones();
-
-    // for (int i = 0; i < reaccion1.size(); i++)
-    // {
-    //     cout << reaccion1[i] << endl;
-    // }
-
-    // for (int i = 0; i < reaccion2.size(); i++)
-    // {
-    //     cout << reaccion2[i] << endl;
-    // }
-
-    // Proyecto proyecto1;
-    // proyecto1.setNombre("proyecto 1"); // nombre del proyecto
-    // proyecto1.setTarea("1. hacer el loguing.");
-    // mostrarEstadosTareas(proyecto1);
+    cout << "Responsables alfabeticamente: " << endl;
+    for (const auto responsable : responsables)
+    {
+        cout << responsable << endl;
+    }
 }
+
+// 14. El sistema debe permitir hacer consultas de proyectos por nombres y mostrar las tareas que cada uno contiene.
+void consultar_proyecto(map<string, Proyecto> proyectos, map<string, Tareas> tareas)
+{
+    string nombre_proyecto;
+    cout << "ingresa el nombre del proyecto" << endl;
+    cin.ignore();
+    getline(cin, nombre_proyecto);
+    if (proyectos.find(nombre_proyecto) == proyectos.end())
+    {
+        cout << "El proyecto buscado no existe." << endl;
+        return;
+    }
+    Proyecto proyecto = proyectos[nombre_proyecto];
+    cout << "proyecto: " << proyecto.getNombre_proyecto() << endl;
+    cout << "tareas: " << endl;
+    for (const auto tarea : proyecto.getTareas())
+    {
+        cout << tarea.getNombre_tarea() << endl;
+    }
+}
+
+// 11. el sistema debe permitir mostrar las notas
+void mostrar_notas(set<Proyecto> proyectos)
+{
+    for (const auto proyecto : proyectos)
+    {
+        cout << "Proyecto: " << proyecto.getNombre_proyecto() << endl;
+        cout << "Notas del proyecto: " << endl;
+        for (const auto &nota : proyecto.getNotas())
+        {
+            cout << "Titulo: " << nota.getTitulo_notas() << endl;
+            cout << "Autor: " << nota.getAutor_nota() << endl;
+            cout << "Descripcion: " << nota.getComentarios() << endl;
+            cout << endl;
+        }
+        cout << endl;
+    }
+}
+
+void mostrar_notas(set<Tareas> tareas)
+{
+    for (const auto tarea : tareas)
+    {
+        cout << "tarea: " << tarea.getNombre_tarea() << endl;
+        cout << "Notas del tarea: " << endl;
+        for (const auto &nota : tarea.getNotas())
+        {
+            cout << "Titulo: " << nota.getTitulo_notas() << endl;
+            cout << "Autor: " << nota.getAutor_nota() << endl;
+            cout << "Descripcion: " << nota.getComentarios() << endl;
+            cout << endl;
+        }
+        cout << endl;
+    }
+}
+
+// 20. El sistema debe contener los menús necesarios para que sea amigable al usuario.
+
+class Interfaz
+{
+private:
+    Usuario usuario;
+    Proyecto proyecto;
+    Tareas tarea;
+    Notas nota;
+    set<Notas> notas;
+    set<Proyecto> proyectos;
+    set<Tareas> tareas;
+
+public:
+    void menu()
+    {
+        int opcion;
+        do
+        {
+            cout << "Bienvenido a TaskMaster." << endl;
+            cout << " " << endl;
+            cout << "Donde creas tus proyectos de forma eficiente." << endl;
+            cout << " " << endl;
+            cout << "¿Que quieres hacer?" << endl;
+            cout << " " << endl;
+            cout << "1. Login ." << endl;
+            cout << "2. Proyectos" << endl;
+            cout << "3. tareas." << endl;
+            cout << "4. Notas." << endl;
+            cout << "5. Salir." << endl;
+            cout << " " << endl;
+            cout << "EMPECEMOS CON TU TRABAJO :D: " << endl;
+            cout << " " << endl;
+            cout << "Ingrese su opción: ";
+            cin >> opcion;
+
+            switch (opcion)
+            {
+            case 1:
+                cout << "Si ya estas registrado, inicia secion, si no, registrate." << endl;
+                cout << " " << endl;
+                cout << "1. Iniciar secion." << endl;
+                cout << "2. Registrarse." << endl;
+                cout << " " << endl;
+                cout << "Ingrese su opcion: ";
+                int opcion2;
+                cin >> opcion2;
+                switch (opcion2)
+                {
+                case 1:
+
+                    break;
+
+                default:
+                    break;
+                }
+                break;
+            case 2:
+                cout << "Proyectos" << endl;
+                cout << " " << endl;
+                cout << "1. Crear proyecto." << endl;
+                cout << "2. Ver proyectos." << endl;
+                cout << "3. Agregar notas." << endl;
+                cout << "4. Eliminar proyecto." << endl;
+                cout << "5. Estado de las tareas." << endl;
+                cout << "6. Ver notas." << endl;
+                cout << " " << endl;
+                cout << "Ingrese su opcion: ";
+                int opcion3;
+                cin >> opcion3;
+                switch (opcion3)
+                {
+                case 1:
+
+                    break;
+
+                default:
+                    break;
+                }
+                break;
+            case 3:
+                cout << "Tareas" << endl;
+                cout << " " << endl;
+                cout << "1. Crear tarea." << endl;
+                cout << "2. Ver tareas." << endl;
+                cout << "3. Agregar notas." << endl;
+                cout << "4. Eliminar tarea." << endl;
+                cout << "5. Ver notas." << endl;
+                cout << "6. Ordenar por prioridad." << endl;
+                cout << "7. Ordenar responsables por nombre" << endl;
+                cout << " " << endl;
+                cout << "Ingrese su opcion: ";
+                int opcion4;
+                cin >> opcion4;
+                switch (opcion4)
+                {
+                case 1:
+                    
+                    break;
+                
+                default:
+                    break;
+                }
+                break;
+            case 4:
+                // Agregar opciones para notas
+                break;
+            case 5:
+                // Salir
+                break;
+            default:
+                cout << "Opción no válida. Por favor, intente nuevamente." << endl;
+                break;
+            }
+        } while (opcion != 5);
+    }
+};

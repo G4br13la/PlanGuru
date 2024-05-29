@@ -184,8 +184,6 @@ void showTasks(const Project& project)
                 cout << "Description: " << note.description << endl;
             }
         }
-        
-        cout << "---------------------------------" << endl;
     }
 }
 
